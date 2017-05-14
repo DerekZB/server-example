@@ -11,9 +11,9 @@
 	</welcome-file-list>
 
 	<servlet>
-		<load-on-startup>1</load-on-startup>
 		<servlet-name>TestServlet</servlet-name>
 		<servlet-class>com.netease.server.example.web.controller.TestServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>TestServlet</servlet-name>
@@ -22,9 +22,9 @@
 
 
 	<servlet>
-		<load-on-startup>2</load-on-startup>
 		<servlet-name>TestHelloServlet</servlet-name>
 		<servlet-class>com.netease.server.example.web.controller.TestHelloServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
@@ -69,6 +69,8 @@
 
 	<!-- servletconfig servlet -->
 	<servlet>
+		<servlet-name>ServletConfigServlet</servlet-name>
+		<servlet-class>com.netease.server.example.web.controller.ServletConfigServlet</servlet-class>
 		<init-param>
 			<param-name>data1</param-name>
 			<param-value>value1</param-value>
@@ -77,8 +79,6 @@
 			<param-name>data2</param-name>
 			<param-value>value2</param-value>
 		</init-param>
-		<servlet-name>ServletConfigServlet</servlet-name>
-		<servlet-class>com.netease.server.example.web.controller.ServletConfigServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ServletConfigServlet</servlet-name>

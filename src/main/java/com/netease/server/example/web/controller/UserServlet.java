@@ -41,23 +41,27 @@ public class UserServlet extends HttpServlet {
 	protected void process(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher dispatcher = null;
-		String userName = request.getParameter("userName");
-		String userPassword = request.getParameter("userPassword");
+		String user = request.getParameter("user");
+		String password = request.getParameter("password");
 
 		HttpSession session = request.getSession();
-		String name = (String) session.getAttribute("userName");
+		String name = (String) session.getAttribute("user");
 
 		if (name != null) {
-			System.out.println("second login: " + name);
+			session.invalidate();
+			if (!name.equals(user))
+			{
+				System.out.println("second login: " + name);
+			}
 		}
 
-		session.setAttribute("userName", userName);
+		session.setAttribute("user", user);
 
-		Cookie userNameCookie = new Cookie("userName", userName);
-		Cookie pwdCookie = new Cookie("pwd", userPassword);
+		Cookie userNameCookie = new Cookie("user", user);
+		Cookie pwdCookie = new Cookie("password", password);
 
-		userNameCookie.setMaxAge(10 * 60);
-		pwdCookie.setMaxAge(10 * 60);
+		userNameCookie.setMaxAge(30 * 60);
+		pwdCookie.setMaxAge(30 * 60);
 
 		response.addCookie(userNameCookie);
 		response.addCookie(pwdCookie);
@@ -65,23 +69,23 @@ public class UserServlet extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("userName")) {
-					userName = cookie.getValue();
+				if (cookie.getName().equals("user")) {
+					user = cookie.getValue();
 				}
-				if (cookie.getName().equals("pwd")) {
-					userPassword = cookie.getValue();
+				if (cookie.getName().equals("password")) {
+					password = cookie.getValue();
 				}
 			}
 		}
 
 		try {
-			if (userName.equals("123") && userPassword.equals("123")) {
+			if (user.equals("123") && password.equals("123")) {
 				PrintWriter writer = response.getWriter();
 				writer.println("<html>");
 				writer.println("<head><title>用户中心</title></head>");
 				writer.println("<body>");
-				writer.println("<p>用户名：" + userName + "</p>");
-				writer.println("<p>用户密码：" + userPassword + "</p>");
+				writer.println("<p>用户名：" + user + "</p>");
+				writer.println("<p>用户密码：" + password + "</p>");
 				writer.println("</body>");
 				writer.println("</html>");
 				writer.close();
@@ -95,5 +99,33 @@ public class UserServlet extends HttpServlet {
 			dispatcher.forward(request, response);
 		}
 
+	}
+	
+	protected void login(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		String user = request.getParameter("user");
+		String password = request.getParameter("password");
+
+		HttpSession session = request.getSession();
+		String name = (String) session.getAttribute("user");
+
+		if (name != null) {
+			session.invalidate();
+			if (!name.equals(user))
+			{
+				System.out.println("second login: " + name);
+			}
+		}
+		
+		session.setAttribute("user", user);
+
+		Cookie userNameCookie = new Cookie("user", user);
+		Cookie pwdCookie = new Cookie("password", password);
+
+		userNameCookie.setMaxAge(30 * 60);
+		pwdCookie.setMaxAge(30 * 60);
+
+		response.addCookie(userNameCookie);
+		response.addCookie(pwdCookie);
 	}
 }
